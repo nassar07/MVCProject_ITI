@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MVCProject_ITI.Models;
 using MVCProject_ITI.Repositories.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace MVCProject_ITI.Repositories.Implementations
 {
     public class TaskRepository : Repository<TaskItem>, ITaskRepository
     {
-        public TaskRepository(Context context) : base(context) { }
+        public TaskRepository(Context context) : base(context)
+        {
+        }
 
         public async Task<IEnumerable<TaskItem>> GetUserTasks(string userId)
         {

@@ -24,7 +24,7 @@ namespace MVCProject_ITI.Repositories.Implementations
 
         public void Update(T entity) => _dbSet.Update(entity);
 
-        public void Delete(T entity) => _dbSet.Remove(entity);
+        public void Delete(int id) { }
 
         public async Task SaveChanges() => await _context.SaveChangesAsync();
     }
