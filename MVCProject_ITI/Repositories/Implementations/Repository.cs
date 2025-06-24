@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MVCProject_ITI.Models;
 using MVCProject_ITI.Repositories.Interfaces;
-using System;
 
 namespace MVCProject_ITI.Repositories.Implementations
 {

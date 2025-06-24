@@ -1,0 +1,71 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MVCProject_ITI.Models;
+using MVCProject_ITI.Repositories.Interfaces;
+
+namespace MVCProject_ITI.Controllers;
+
+[Authorize(Roles = "Admin")]
+public class UserController : Controller
+{
+    private readonly IRepository<TaskItem> _taskRepository;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public UserController(IRepository<TaskItem> TaskRepository, UserManager<ApplicationUser> userManager)
+    {
+        _taskRepository = TaskRepository;
+        _userManager = userManager;
+    }
+
+    public async Task<IActionResult> OrderedTasks()
+    {
+        var UserId = _userManager.GetUserId(User);
+
+        var tasks = await _taskRepository.GetAll();
+
+        var CertainUser = tasks.Where(t => t.UserId == UserId).ToList();
+
+        return View(CertainUser);
+    }
+
+    public async Task<IActionResult> CreateTaskForm()
+    {
+        return View();
+    }
+
+    public async Task<IActionResult> CreateTask(TaskItem task)
+    {
+        await _taskRepository.Add(task);
+        await _taskRepository.SaveChanges();
+        return RedirectToAction("OrderedTasks");
+    }
+
+    public async Task<IActionResult> Delete(int ID)
+    {
+        var UserId = _userManager.GetUserId(User);
+        var task = await _taskRepository.GetById(ID);
+
+        if (task.UserId == UserId)
+        { 
+            _taskRepository.Delete(ID);
+            return RedirectToAction("OrderedTasks");
+        }
+        return BadRequest();
+    }
+
+    public async Task<IActionResult> UpdateTask(int ID, TaskItem task)
+    {
+        var res = await _taskRepository.GetById(ID);
+
+        res.Title = task.Title;
+        res.Description = task.Description;
+        res.IsCompleted = task.IsCompleted;
+        res.DueDate = task.DueDate;
+        res.CategoryId = task.CategoryId;
+
+         _taskRepository.Update(task);
+        await _taskRepository.SaveChanges();
+        return RedirectToAction("OrderedTasks");
+    }
+}

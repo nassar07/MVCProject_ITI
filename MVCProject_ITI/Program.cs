@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MVCProject_ITI.Models;
+using MVCProject_ITI.Repositories.Implementations;
+using MVCProject_ITI.Repositories.Interfaces;
 
 namespace MVCProject_ITI
 {
@@ -18,15 +20,12 @@ namespace MVCProject_ITI
             builder.Services.AddDbContext<Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("lcs")));
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-                options =>
-                {
-                    options.Password.RequiredLength = 6;
-                }
-                ).AddEntityFrameworkStores<Context>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<Context>()
+            .AddDefaultTokenProviders();
 
-
-
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             var app = builder.Build();
 
