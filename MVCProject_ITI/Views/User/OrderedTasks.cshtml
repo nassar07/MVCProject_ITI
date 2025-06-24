@@ -1,0 +1,49 @@
+﻿@model List<TaskItem>
+
+@{
+    ViewData["Title"] = "My Tasks";
+}
+
+<h2>My Tasks</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Is Completed</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var task in Model)
+            {
+                <tr>
+                    <td>@task.Title</td>
+                    <td>@task.Description</td>
+                    <td>@task.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        @if (task.IsCompleted)
+                        {
+                            <span class="text-success">✔ Done</span>
+                        }
+                        else
+                        {
+                            <span class="text-warning">⏳ Not Done</span>
+                        }
+                    </td>
+                    <td>@task.Category?.Name</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">You have no tasks.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,11 @@
+﻿@using MVCProject_ITI.ViewModel
+@model LoginViewModel
+
+<form asp-action="Login" method="post">
+    <input asp-for="Email" placeholder="Email" />
+    <input asp-for="Password" type="password" placeholder="Password" />
+    <label>
+        <input asp-for="RememberMe" type="checkbox" /> Remember Me
+    </label>
+    <button type="submit">Login</button>
+</form>
