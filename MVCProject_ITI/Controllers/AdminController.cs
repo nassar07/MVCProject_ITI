@@ -7,7 +7,7 @@ using MVCProject_ITI.Repositories.Implementations;
 
 namespace MVCProject_ITI.Controllers;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "ADMIN")]
 public class AdminController : Controller
 {
     private readonly Repository<TaskItem> _taskRepository;
@@ -23,9 +23,14 @@ public class AdminController : Controller
         var user = await _userManager.FindByIdAsync(userId);
         if (user != null)
         {
-            await _userManager.AddToRoleAsync(user, "Admin");
+            await _userManager.AddToRoleAsync(user, "ADMIN");
         }
         return RedirectToAction("UsersList");
+    }
+    public async Task<IActionResult> UsersList()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        return View("UsersList", users);
     }
 
     public async Task<IActionResult> allTasks()

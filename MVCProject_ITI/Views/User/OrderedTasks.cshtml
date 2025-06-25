@@ -6,6 +6,9 @@
 
 <h2>My Tasks</h2>
 
+
+<a href="./CreateTaskForm">Create Task</a>
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -36,6 +39,10 @@
                         }
                     </td>
                     <td>@task.Category?.Name</td>
+                    <td>
+                        <a href="@Url.Action("UpdateTask", "User", new { id = task.Id })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "User", new { id = task.Id })" class="btn btn-danger">Delete</a>
+                    </td>
                 </tr>
             }
         }

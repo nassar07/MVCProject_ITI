@@ -1,7 +1,7 @@
 ﻿@using MVCProject_ITI.ViewModel
 @model LoginViewModel
 
-<form asp-action="Login" method="post">
+<form asp-action="Login" asp-controller="Account"  method="post">
     <input asp-for="Email" placeholder="Email" />
     <input asp-for="Password" type="password" placeholder="Password" />
     <label>

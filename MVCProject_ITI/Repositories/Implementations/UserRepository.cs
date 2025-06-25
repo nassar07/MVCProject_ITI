@@ -24,7 +24,7 @@ public class UserRepository : IUserRepository
         if (!result.Succeeded)
             return false;
 
-        await _userManager.AddToRoleAsync(user, "User");
+        await _userManager.AddToRoleAsync(user, "USER");
         return true;
     }
 

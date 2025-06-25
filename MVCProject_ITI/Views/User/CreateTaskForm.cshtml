@@ -1,4 +1,5 @@
-﻿@model TaskItem
+﻿@using MVCProject_ITI.ViewModel
+@model TaskViewModel
 
 @{
     ViewData["Title"] = "Create Task";
@@ -6,7 +7,7 @@
 
 <h2>Create Task</h2>
 
-<form asp-action="CreateTask" method="post">
+<form asp-action="CreateTask" asp-controller="User" method="post">
     <div class="form-group">
         <label asp-for="Title"></label>
         <input asp-for="Title" class="form-control" />

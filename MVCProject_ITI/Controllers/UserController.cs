@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVCProject_ITI.Models;
 using MVCProject_ITI.Repositories.Interfaces;
+using MVCProject_ITI.ViewModel;
 
 namespace MVCProject_ITI.Controllers;
 
-[Authorize(Roles = "Admin")]
+
 public class UserController : Controller
 {
     private readonly IRepository<TaskItem> _taskRepository;
@@ -26,15 +27,15 @@ public class UserController : Controller
 
         var CertainUser = tasks.Where(t => t.UserId == UserId).ToList();
 
-        return View(CertainUser);
+        return View("OrderedTasks", CertainUser);
     }
-
+    
     public async Task<IActionResult> CreateTaskForm()
     {
-        return View();
+        return View("CreateTaskForm");
     }
-
-    public async Task<IActionResult> CreateTask(TaskItem task)
+    
+    public async Task<IActionResult> CreateTask(TaskViewModel task)
     {
         await _taskRepository.Add(task);
         await _taskRepository.SaveChanges();

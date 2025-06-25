@@ -1,4 +1,6 @@
-﻿namespace MVCProject_ITI.Repositories.Interfaces
+﻿using MVCProject_ITI.ViewModel;
+
+namespace MVCProject_ITI.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class
     {
@@ -8,5 +10,6 @@
         void Update(T entity);
         void Delete(int id);
         Task SaveChanges();
+        Task Add(TaskViewModel task);
     }
 }

@@ -6,7 +6,7 @@
 
 <h2>Edit Task</h2>
 
-<form asp-action="UpdateTask" asp-route-id="@Model.Id" method="post">
+<form asp-action="UpdateTask" asp-route-id="@Model.Id" asp-controller="User" method="post">
     <div class="form-group">
         <label asp-for="Title"></label>
         <input asp-for="Title" class="form-control" />

@@ -19,13 +19,13 @@ public class AccountController : Controller
 
     public IActionResult Register()
     {
-        return View();
+        return View("Register");
     }
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid)
-            return View(model);
+            return View("Register", model);
 
         var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
         var result = await _userManager.CreateAsync(user, model.Password);
@@ -37,19 +37,19 @@ public class AccountController : Controller
             return View(model);
         }
 
-        await _userManager.AddToRoleAsync(user, "User");
-        return RedirectToAction("Index", "Home");
+        await _userManager.AddToRoleAsync(user,"User");
+        return View("Login");
     }
 
     public IActionResult Login()
     {
-        return View();
+        return View("Login");
     }
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (!ModelState.IsValid)
-            return View(model);
+            return View("Login",model);
 
         bool succeeded = await _userRepository.LoginAsync(model);
         if (succeeded)
