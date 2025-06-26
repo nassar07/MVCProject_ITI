@@ -44,7 +44,6 @@ public class UserController : Controller
             Description = task.Description,
             DueDate = task.DueDate,
             IsCompleted = task.IsCompleted,
-            CategoryId = task.Category.Id,
             UserId = _userManager.GetUserId(User)
         });
         await _taskRepository.SaveChanges();
