@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MVCProject_ITI.Models;
 using MVCProject_ITI.Repositories.Interfaces;
-using MVCProject_ITI.ViewModel;
 
 namespace MVCProject_ITI.Repositories.Implementations
 {
@@ -24,7 +23,7 @@ namespace MVCProject_ITI.Repositories.Implementations
 
         public void Update(T entity) => _dbSet.Update(entity);
 
-        public void Delete(int id) { }
+        public void Delete(T entity) => _dbSet.Remove(entity);
 
         public async Task SaveChanges() => await _context.SaveChangesAsync();
 

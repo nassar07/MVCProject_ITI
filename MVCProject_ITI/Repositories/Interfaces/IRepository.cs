@@ -1,5 +1,4 @@
 ﻿using MVCProject_ITI.Models;
-using MVCProject_ITI.ViewModel;
 
 namespace MVCProject_ITI.Repositories.Interfaces
 {
@@ -9,7 +8,7 @@ namespace MVCProject_ITI.Repositories.Interfaces
         Task<T?> GetById(int id);
         Task Add(T entity);
         void Update(T entity);
-        void Delete(int id);
+        void Delete(T entity);
         Task SaveChanges();
         void Add(TaskItem task);
     }

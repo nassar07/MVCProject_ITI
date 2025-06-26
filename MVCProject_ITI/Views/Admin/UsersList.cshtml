@@ -1,27 +1,31 @@
 ﻿@model List<ApplicationUser>
+
 @{
-    ViewData["Title"] = "UsersList";
+    ViewData["Title"] = "Users List";
 }
 
-<h1>UsersList</h1>
+<h2>Users List</h2>
 
-
-<table class="table table-bordered table-hover">
-	<thead>
-		<tr>
-			<th>Id</th>
-			<th>Username</th>
-			<th>Email</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var user in Model )
-		{
-			<tr>
-				<td>@user.Id</td>
-				<td>@user.UserName</td>
-				<td>@user.Email</td>
-			</tr>
-		}
-	</tbody>
-
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Promote to Admin</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    <form asp-action="PromoteToAdmin" asp-controller="Admin" asp-route-userId="@user.Id" method="post" onsubmit="return confirm('Are you sure you want to promote this user to Admin?');">
+                        <button type="submit" class="btn btn-sm btn-warning">Promote</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
