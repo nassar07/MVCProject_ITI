@@ -12,7 +12,6 @@ namespace MVCProject_ITI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<Context>(options =>
@@ -38,7 +37,6 @@ namespace MVCProject_ITI
 
             var app = builder.Build();
 
-            // ✅ إنشاء الرولز + يوزر admin
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
