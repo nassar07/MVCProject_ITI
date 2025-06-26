@@ -32,14 +32,24 @@ public class UserController : Controller
     
     public async Task<IActionResult> CreateTaskForm()
     {
+        ViewBag.Categories = await _taskRepository.GetAll();
         return View("CreateTaskForm");
     }
     
-    public async Task<IActionResult> CreateTask(TaskViewModel task)
+    public async Task<IActionResult> SaveCreatedTask(TaskViewModel task)
     {
-        await _taskRepository.Add(task);
+        _taskRepository.Add(new TaskItem
+        {
+            Title = task.Title,
+            Description = task.Description,
+            DueDate = task.DueDate,
+            IsCompleted = task.IsCompleted,
+            CategoryId = task.Category.Id,
+            UserId = _userManager.GetUserId(User)
+        });
         await _taskRepository.SaveChanges();
         return RedirectToAction("OrderedTasks");
+
     }
 
     public async Task<IActionResult> Delete(int ID)

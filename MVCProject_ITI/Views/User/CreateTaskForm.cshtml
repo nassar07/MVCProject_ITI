@@ -1,5 +1,4 @@
-﻿@using MVCProject_ITI.ViewModel
-@model TaskViewModel
+﻿@model TaskItem
 
 @{
     ViewData["Title"] = "Create Task";
@@ -7,7 +6,7 @@
 
 <h2>Create Task</h2>
 
-<form asp-action="CreateTask" asp-controller="User" method="post">
+<form asp-action="SaveCreatedTask" asp-controller="User" method="post">
     <div class="form-group">
         <label asp-for="Title"></label>
         <input asp-for="Title" class="form-control" />
@@ -32,8 +31,10 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Category"></label>
-        <input asp-for="Category" class="form-control" />
+        <label asp-for="CategoryId"></label>
+		<select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+			<option value="">Select Category</option>
+		</select>
         <span asp-validation-for="Category" class="text-danger"></span>
     </div>
 

@@ -60,7 +60,7 @@ public class AdminController : Controller
             IsCompleted = task.IsCompleted,
         };
 
-        await _taskRepository.Add(Orderedtask);
+        _taskRepository.Add(Orderedtask);
         await _taskRepository.SaveChanges();
         return RedirectToAction("OrderedTasks");
     }
@@ -82,7 +82,7 @@ public class AdminController : Controller
         res.CategoryId = task.CategoryId;
         res.UserId = task.UserId;
 
-        await _taskRepository.Add(task);
+        _taskRepository.Add(task);
         await _taskRepository.SaveChanges();
         return RedirectToAction("OrderedTasks");
     }

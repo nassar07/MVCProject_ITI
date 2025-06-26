@@ -9,6 +9,6 @@ namespace MVCProject_ITI.ViewModel
         public DateTime DueDate { get; set; }
         public bool IsCompleted { get; set; }
 
-        public Category Category { get; set; }
+        List<Category> categories = new List<Category>();
     }
 }

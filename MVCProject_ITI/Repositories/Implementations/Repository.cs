@@ -28,9 +28,10 @@ namespace MVCProject_ITI.Repositories.Implementations
 
         public async Task SaveChanges() => await _context.SaveChangesAsync();
 
-        public async Task Add(TaskViewModel task)
+
+        public void Add(TaskItem task)
         {
-           await _context.AddAsync(task);
+            _context.TaskItems.Add(task);
         }
     }
 }
