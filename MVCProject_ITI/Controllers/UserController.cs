@@ -7,6 +7,7 @@ using MVCProject_ITI.Models;
 using MVCProject_ITI.Repositories.Implementations;
 using MVCProject_ITI.Repositories.Interfaces;
 using MVCProject_ITI.ViewModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MVCProject_ITI.Controllers;
 
@@ -26,13 +27,13 @@ public class UserController : Controller
 
     public async Task<IActionResult> OrderedTasks()
     {
-        var UserId = _userManager.GetUserId(User);
+        var userId = _userManager.GetUserId(User);
 
-        var tasks = await _taskRepository.GetAll();
+        var tasks = await _taskRepository.GetAllWithInclude("Category");
 
-        var CertainUser = tasks.Where(t => t.UserId == UserId).ToList();
+        var userTasks = await tasks.Where(t => t.UserId == userId).ToListAsync();
 
-        return View(CertainUser);
+        return View(userTasks);
     }
     
     public async Task<IActionResult> CreateTaskForm()

@@ -17,7 +17,7 @@ public class TaskViewModel
     public List<ApplicationUser>? Users { get; set; }
 
     [Required(ErrorMessage = "Please select a user")]
-    public string? SelectedUserId { get; set; }
+    public string SelectedUserId { get; set; }
 
     [Required(ErrorMessage = "Please select a category")]
     public int SelectedCategoryId { get; set; }

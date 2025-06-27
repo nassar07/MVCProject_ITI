@@ -14,8 +14,18 @@ namespace MVCProject_ITI.Repositories.Implementations
             _context = context;
             _dbSet = _context.Set<T>();
         }
-
         public async Task<IEnumerable<T>> GetAll() => await _dbSet.ToListAsync();
+        public async Task<IQueryable<T>> GetAllWithInclude(params string[] includes)
+        {
+            IQueryable<T> query = _dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await Task.FromResult(query);
+        }
 
         public async Task<T?> GetById(int id) => await _dbSet.FindAsync(id);
 
@@ -32,5 +42,6 @@ namespace MVCProject_ITI.Repositories.Implementations
         {
             _context.TaskItems.Add(task);
         }
+
     }
 }
