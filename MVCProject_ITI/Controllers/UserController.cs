@@ -35,7 +35,7 @@ public class UserController : Controller
 
         return View(userTasks);
     }
-    
+
     public async Task<IActionResult> CreateTaskForm()
     {
         var currentUser = await _userManager.GetUserAsync(User);
@@ -45,12 +45,18 @@ public class UserController : Controller
             return Unauthorized();
         }
 
-        var categories = await _categoryRepository.GetAll();
+        // تحميل كل الكاتيجوريز (List)
+        var allCategories = await _categoryRepository.GetAll();
+
+        // فلترة حسب الـ user الحالي
+        var userCategories = allCategories
+            .Where(c => c.UserId == currentUser.Id)
+            .ToList();
 
         var model = new TaskViewModel
         {
-            categories = categories.ToList(),
-            SelectedUserId = currentUser?.Id
+            categories = userCategories,
+            SelectedUserId = currentUser.Id
         };
 
         if (!model.categories.Any())
@@ -60,6 +66,7 @@ public class UserController : Controller
 
         return View(model);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> SaveCreatedTask(TaskViewModel task)

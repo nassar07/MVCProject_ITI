@@ -54,19 +54,43 @@ public class AdminController : Controller
 
     public async Task<IActionResult> allTasks()
     {
-        var tasks = await _taskRepository.GetAll();
-        return View(tasks);
+        var currentUserId = _userManager.GetUserId(User);
+
+        // جلب كل التاسكات مع الكاتيجوري المرتبطة بيها
+        var tasksWithCategories = await _taskRepository.GetAllWithInclude("Category");
+
+        // فلترة التاسكات اللي الكاتيجوري بتاعها تخص اليوزر الحالي
+        var myTasks = tasksWithCategories
+            .Where(t => t.Category.UserId == currentUserId)
+            .ToList();
+
+        return View(myTasks);
     }
+
+
 
     public async Task<IActionResult> CreateTaskForm()
     {
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
         List<ApplicationUser> users = await _userManager.Users.ToListAsync();
-        var categories = await _categoryRepository.GetAll();
+
+        // تحميل كل الكاتيجوريز ثم فلترة الخاصة باليوزر الحالي فقط
+        var allCategories = await _categoryRepository.GetAll();
+        var userCategories = allCategories
+            .Where(c => c.UserId == currentUser.Id)
+            .ToList();
 
         var model = new TaskViewModel
         {
             Users = users,
-            categories = (List<Category>)categories
+            categories = userCategories,
+            SelectedUserId = currentUser.Id
         };
 
         if (!users.Any())
@@ -74,7 +98,7 @@ public class AdminController : Controller
             ModelState.AddModelError("", "No users found.");
         }
 
-        if (!categories.Any())
+        if (!userCategories.Any())
         {
             ModelState.AddModelError("", "No categories found.");
         }
@@ -85,7 +109,6 @@ public class AdminController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateTask(TaskViewModel task, IFormCollection form)
     {
-
         if (ModelState.IsValid)
         {
             var Task = new TaskItem
@@ -96,20 +119,29 @@ public class AdminController : Controller
                 IsCompleted = task.IsCompleted,
                 UserId = task.SelectedUserId!,
                 CategoryId = task.SelectedCategoryId
-
             };
+
             _taskRepository.Add(Task);
             await _taskRepository.SaveChanges();
+
             return RedirectToAction("allTasks");
         }
 
         ModelState.AddModelError("", "Task cannot be null.");
 
+        // إعادة تحميل البيانات للفورم عند إعادة عرضها (بعد فشل الفاليديشن)
+        var currentUser = await _userManager.GetUserAsync(User);
+
         task.Users = await _userManager.Users.ToListAsync();
-        task.categories = (List<Category>)await _categoryRepository.GetAll();
+
+        var allCategories = await _categoryRepository.GetAll();
+        task.categories = allCategories
+            .Where(c => c.UserId == currentUser.Id)
+            .ToList();
 
         return View("CreateTaskForm", task);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Delete(int ID)
