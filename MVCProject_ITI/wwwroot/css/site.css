@@ -18,5 +18,50 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #f8f9fa;
+    background-color: #bdae9e73;
+}
+
+input {
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+.logcontainer {
+    overflow: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    padding: 25px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    max-height: 400px;
+    font-family: monospace;
+}
+.bottoms a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e0e0e0; 
+
+}
+
+.bottoms {
+    width: 40%;
+}
+
+.headersec img {
+    width: 400px;
+    height: 300px;
+    border-radius: 20px;
+}
+
+.headersec h1 {
+    color: blue;
 }
