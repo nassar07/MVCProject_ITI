@@ -6,7 +6,7 @@ using MVCProject_ITI.Repositories.Implementations;
 
 namespace MVCProject_ITI.Controllers;
 
-[Authorize(Roles = "ADMIN")]
+
 public class CategoryController : Controller
 {
     private readonly Repository<Category> _CategoryRepository;
@@ -20,9 +20,15 @@ public class CategoryController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var categories = await _CategoryRepository.GetAll();
+        var userId = _userManager.GetUserId(User);
+
+        var allCategories = await _CategoryRepository.GetAll();
+        var categories = allCategories.Where(c => c.UserId == userId).ToList();
+
         return View(categories);
     }
+
+
 
     public async Task<IActionResult> CreateCategoryForm()
     {
